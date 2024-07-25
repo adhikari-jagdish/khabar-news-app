@@ -2,29 +2,30 @@ import 'package:khabar_news_app/models/source_model.dart';
 
 class ArticleModel {
   ArticleModel({
-    required this.source,
+    this.source,
     this.author,
-    required this.title,
+    this.title,
     this.description,
-    required this.url,
+    this.url,
     this.urlToImage,
-    required this.publishedAt,
+    this.publishedAt,
     this.content,
   });
 
-  String? author, description, urlToImage, content;
-  String title, url, publishedAt;
-  SourceModel source;
+  String? author, description, urlToImage, content, title, url, publishedAt;
+  SourceModel? source;
 
   factory ArticleModel.fromJson(Map<String, dynamic> json) {
     return ArticleModel(
       author: json['author'] ?? "",
       description: json['description'] ?? "",
-      source: SourceModel.fromJson(json['source'] as Map<String, dynamic>),
-      title: json['author'],
-      url: json['url'],
-      urlToImage: json['urlToImage'],
-      publishedAt: json['publishedAt'],
+      source: json['source'] != null
+          ? SourceModel.fromJson(json['source'] as Map<String, dynamic>)
+          : SourceModel(),
+      title: json['author'] ?? "",
+      url: json['url'] ?? "",
+      urlToImage: json['urlToImage'] ?? "",
+      publishedAt: json['publishedAt'] ?? "",
       content: json['content'] ?? "",
     );
   }

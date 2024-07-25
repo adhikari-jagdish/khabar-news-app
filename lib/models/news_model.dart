@@ -12,8 +12,8 @@ class NewsModel {
   List<ArticleModel>? articles;
 
   NewsModel.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    totalResults = json['totalResults'];
+    status = json['status'] ?? "";
+    totalResults = json['totalResults'] ?? 0;
     if (json['articles'] != null) {
       articles = [];
       json['articles'].forEach((v) {
