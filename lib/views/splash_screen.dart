@@ -17,7 +17,7 @@ class _SplashState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    Timer(const Duration(seconds: 3), () {
+    Timer(const Duration(seconds: 2), () {
       //navigate to home screen replacing the view
       Get.offAndToNamed(RouteConstants.newsList);
     });
