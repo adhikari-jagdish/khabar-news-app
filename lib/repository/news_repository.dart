@@ -10,7 +10,7 @@ class NewsRepository {
           '${NewsApiConstants.baseUrl}top-headlines?q=$category&languages=en&apiKey=${NewsApiConstants.newsApiKey}';
     } else {
       url =
-          '${NewsApiConstants.baseUrl}top-headlines?country=us&languages=en&apiKey=${NewsApiConstants.newsApiKey}';
+          '${NewsApiConstants.baseUrl}everything?domains=techcrunch.com,thenextweb.com&languages=en&apiKey=${NewsApiConstants.newsApiKey}';
     }
 
     return await http.get(Uri.parse(url));
