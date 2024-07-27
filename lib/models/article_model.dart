@@ -22,7 +22,7 @@ class ArticleModel {
       source: json['source'] != null
           ? SourceModel.fromJson(json['source'] as Map<String, dynamic>)
           : SourceModel(),
-      title: json['author'] ?? "",
+      title: json['title'] ?? "",
       url: json['url'] ?? "",
       urlToImage: json['urlToImage'] ?? "",
       publishedAt: json['publishedAt'] ?? "",

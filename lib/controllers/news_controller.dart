@@ -9,12 +9,13 @@ import 'package:khabar_news_app/repository/news_repository.dart';
 class NewsController extends GetxController {
   var newsArticlesList = <ArticleModel>[].obs;
 
-  RxBool articleFound = false.obs;
+  RxBool isLoading = false.obs;
   var newsRepo = NewsRepository();
 
   // function to retrieve a JSON response for all news from newsApi.org
   getNewsFromApi({required String category}) async {
     try {
+      isLoading.value = true;
       final newsResponse = await newsRepo.fetchNews(category);
       if (newsResponse.statusCode == 200) {
         Map<String, dynamic> newsJsonData = jsonDecode(newsResponse.body);
@@ -26,12 +27,15 @@ class NewsController extends GetxController {
           }
         }
       } else {
-        articleFound.value = false;
+        newsArticlesList.value =
+            []; //Return an empty list if no articles fetched
       }
     } catch (e) {
       if (kDebugMode) {
         print('Error in News Controller $e');
       }
+    } finally {
+      isLoading.value = false;
     }
   }
 }

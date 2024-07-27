@@ -43,7 +43,7 @@ class NewsListScreen extends StatelessWidget {
               ],
             ),
             child: const Icon(
-              Icons.ring_volume,
+              Icons.notifications_none_rounded,
               size: 20,
             ),
           )
@@ -77,6 +77,8 @@ class NewsListScreen extends StatelessWidget {
                   .map((title) => Tab(text: title))
                   .toList(),
               controller: newsTabController.tabController,
+              isScrollable: true,
+              tabAlignment: TabAlignment.center,
             ),
             SizedBox(
               height: 20,
@@ -84,6 +86,11 @@ class NewsListScreen extends StatelessWidget {
             Expanded(
               child: Obx(
                 () {
+                  if (newsController.isLoading.value) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
                   return ListView.builder(
                     itemCount: newsController.newsArticlesList.length,
                     itemBuilder: (context, index) {

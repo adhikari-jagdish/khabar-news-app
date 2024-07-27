@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:khabar_news_app/constants/route_constants.dart';
 import 'package:khabar_news_app/models/article_model.dart';
 
@@ -13,6 +15,13 @@ class NewsListCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String convertedDate = DateFormat.yMd().format(DateTime.now());
+    if (articleModel.publishedAt != null) {
+      DateTime parsedDate = DateFormat("yyyy-MM-ddTHH:mm:ssZ")
+          .parseUTC(articleModel.publishedAt!);
+      convertedDate =
+          "${parsedDate.year}-${parsedDate.month}-${parsedDate.day}";
+    }
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
       child: InkWell(
@@ -27,19 +36,15 @@ class NewsListCard extends StatelessWidget {
                 topLeft: Radius.circular(8.0),
                 bottomLeft: Radius.circular(8.0),
               ),
-              child: articleModel.urlToImage != null
-                  ? Image.network(
-                      articleModel.urlToImage!,
-                      width: 100,
-                      height: 100,
-                      fit: BoxFit.cover,
-                    )
-                  : Image.asset(
-                      "assets/images/khabar-news.png",
-                      width: 100,
-                      height: 100,
-                      fit: BoxFit.cover,
-                    ),
+              child: CachedNetworkImage(
+                imageUrl: articleModel.urlToImage!,
+                placeholder: (context, url) => const SizedBox(
+                    width: 30, height: 30, child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
+                width: 100,
+                height: 100,
+                fit: BoxFit.cover,
+              ),
             ),
             Expanded(
               child: Padding(
@@ -85,23 +90,23 @@ class NewsListCard extends StatelessWidget {
                                   'assets/images/khabar-news.png'),
                           radius: 10.0,
                         ),
-                        SizedBox(width: 8.0),
+                        const SizedBox(width: 8.0),
                         Text(
                           articleModel.source?.name ?? "News Source",
                           style: const TextStyle(
                             fontSize: 12.0,
                             fontWeight: FontWeight.bold,
                           ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
                         ),
-                        SizedBox(width: 8.0),
-                        Icon(
-                          Icons.lock_clock,
-                        ),
-                        SizedBox(width: 8.0),
+                        const SizedBox(width: 8.0),
+                        const Icon(Icons.timer, size: 15),
+                        const SizedBox(width: 8.0),
                         Text(
-                          articleModel.publishedAt ?? "14:00:00",
+                          convertedDate,
                           style: const TextStyle(
-                            fontSize: 12.0,
+                            fontSize: 10.0,
                             color: Colors.grey,
                           ),
                         ),
